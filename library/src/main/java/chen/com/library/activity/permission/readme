@@ -1,0 +1,33 @@
+
+ PermissionRequest
+                 .builder()
+                 .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                 .proxyListener(new OnRequestPermissionResultListener() {
+                     @Override
+                     public void onPermissionGranted() {
+                         // do something
+                     }
+
+                     @Override
+                     public void onPermissionDenied(List<String> denied) {
+                         // do something
+                     }
+                 })
+                 .requestCode(100)
+                 .create()
+                 .request(this);
+
+         ActivityResultProxy.create()
+                 .requestCode(200)
+                 .proxyListener(new ActivityProxyListener() {
+                     @Override
+                     public Intent constructIntent() {
+                         return new Intent(MainActivity.this, Main2Activity.class);
+                     }
+
+                     @Override
+                     public void onResult(int resultCode, Intent data) {
+                         // do something
+                     }
+                 })
+                 .start(this);

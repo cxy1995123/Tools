@@ -1,15 +1,12 @@
 package chen.com.library.camera;
 
 import android.annotation.SuppressLint;
-import android.cn.toolslib.R;
-import android.cn.toolslib.data.TimeDate;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Environment;
-import android.support.v7.widget.AppCompatSeekBar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -21,10 +18,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import androidx.appcompat.widget.AppCompatSeekBar;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import chen.com.library.R;
+import chen.com.library.data.TimeDate;
 
 
 public class CustomCameraView extends RelativeLayout implements TextureView.SurfaceTextureListener, View.OnClickListener {

@@ -1,8 +1,8 @@
 package android.woniu.com.eventbuse.RxBus;
-import android.arch.lifecycle.LifecycleOwner;
-import android.support.annotation.IntDef;
 import android.util.Log;
 import android.util.LongSparseArray;
+import androidx.annotation.IntDef;
+import androidx.lifecycle.LifecycleOwner;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import io.reactivex.Observable;
@@ -12,7 +12,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
 import static android.woniu.com.eventbuse.RxBus.RxBusBuilder.threadType.BACK;
 import static android.woniu.com.eventbuse.RxBus.RxBusBuilder.threadType.MAIN;
 
