@@ -13,6 +13,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+
+        debug {
+
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -22,6 +27,43 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
         freeCompilerArgs = ['-Xjvm-default=compatibility']
+    }
+
+    // A表示构建的 TV 端或者 手机端
+    // B表示构建的 是小米或者百度的
+    flavorDimensions "A", "B"
+    productFlavors {
+
+        phone {
+            dimension "A"
+        }
+
+        TV {
+            dimension "A"
+        }
+
+
+        xiaomi {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "xiaomi"]
+            dimension = 'B'
+            minSdkVersion 21
+            applicationId = '21'
+            applicationIdSuffix = '.xiaomi'
+//            signingConfig signingConfigs.release
+        }
+        baidu {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "baidu"]
+            dimension = 'B'
+            minSdkVersion 21
+            applicationIdSuffix = '.baidu'
+//            signingConfig signingConfigs.release
+        }
+    }
+}
+
+kotlin {
+    experimental {
+        coroutines 'enable'
     }
 }
 
@@ -45,4 +87,7 @@ dependencies {
     implementation project(path: ':EventBus')
     //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //kotlin 协程
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
 }

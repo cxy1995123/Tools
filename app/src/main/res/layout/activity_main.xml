@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-        app:title="123123213"
-        app:buttonGravity="center_vertical"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#FF9B00"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:fitsSystemWindows="true"
+        app:buttonGravity="center_vertical"
+        app:title="123123213" />
 
-    <TextView
-        android:onClick="send"
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="MainActivity" />
+    <chen.com.library.view.ClipRoundedRectangleFrameLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp">
+    </chen.com.library.view.ClipRoundedRectangleFrameLayout>
 
 </LinearLayout>
