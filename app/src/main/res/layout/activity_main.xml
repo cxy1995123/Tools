@@ -11,14 +11,20 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF9B00"
+        android:background="#009688"
         android:fitsSystemWindows="true"
         app:buttonGravity="center_vertical"
         app:title="123123213" />
 
-    <chen.com.library.view.ClipRoundedRectangleFrameLayout
-        android:layout_width="300dp"
-        android:layout_height="300dp">
-    </chen.com.library.view.ClipRoundedRectangleFrameLayout>
+    <Button
+        android:onClick="send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:onClick="cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 
 </LinearLayout>

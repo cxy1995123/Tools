@@ -20,15 +20,17 @@ class MainActivity : AppCompatActivity() {
 
 fun main() {
     
-    val x = 1
-    val y = 2
-    val z = 4
+    val list: List<String>? = mutableListOf("1", "@", "#")
     
-    val zz = 6
+    val iterator1 = list?.iterator()
     
-    println(zz.and(x))
-    println(zz.and(y))
-    println(zz.and(z))
+    val iterator:MutableList<String> = mutableListOf()
     
+    iterator?.forEach {
+        if (it == "1") {
+            iterator.remove(it)
+        }
+    }
     
+    System.out.println(list)
 }
