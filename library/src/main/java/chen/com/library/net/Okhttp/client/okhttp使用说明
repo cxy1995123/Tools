@@ -1,0 +1,126 @@
+
+/*
+    final Dispatcher dispatcher;  //分发器
+    final Proxy proxy;  //代理
+    final List<Protocol> protocols; //协议
+    final List<ConnectionSpec> connectionSpecs; //传输层版本和连接协议
+    final List<Interceptor> interceptors; //拦截器
+    final List<Interceptor> networkInterceptors; //网络拦截器
+    final ProxySelector proxySelector; //代理选择
+    final CookieJar cookieJar; //cookie
+    final Cache cache; //缓存
+    final InternalCache internalCache;  //内部缓存
+    final SocketFactory socketFactory;  //socket 工厂
+    final SSLSocketFactory sslSocketFactory; //安全套接层socket 工厂，用于HTTPS
+    final CertificateChainCleaner certificateChainCleaner; // 验证确认响应证书 适用 HTTPS 请求连接的主机名。
+    final HostnameVerifier hostnameVerifier;    //  主机名字确认
+    final CertificatePinner certificatePinner;  //  证书链
+    final Authenticator proxyAuthenticator;     //代理身份验证
+    final Authenticator authenticator;      // 本地身份验证
+    final ConnectionPool connectionPool;    //连接池,复用连接
+    final Dns dns;  //域名
+    final boolean followSslRedirects;  //安全套接层重定向
+    final boolean followRedirects;  //本地重定向
+    final boolean retryOnConnectionFailure; //重试连接失败
+    final int connectTimeout;    //连接超时
+    final int readTimeout; //read 超时
+    final int writeTimeout; //write 超时
+    */
+    -------------------------------------------------------------------
+    MediaType 属性：
+    //    text/html ： HTML格式
+    //    text/plain ：纯文本格式
+    //    text/xml ：  XML格式
+    //    image/gif ：gif图片格式
+    //    image/jpeg ：jpg图片格式
+    //    image/png：png图片格式
+    //    以application开头的媒体格式类型：
+    //
+    //    application/xhtml+xml ：XHTML格式
+    //    application/xml     ： XML数据格式
+    //    application/atom+xml  ：Atom XML聚合格式
+    //    application/json    ： JSON数据格式
+    //    application/pdf       ：pdf格式
+    //    application/msword  ： Word文档格式
+    //    application/octet-stream ： 二进制流数据（如常见的文件下载）
+    //    application/x-www-form-urlencoded ： <form encType=””>中默认的encType，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式）
+
+    ----------------------------------------------------------------------------------------
+
+     OkHttpClient client = new OkHttpClient();
+
+         ------------------------------------------------------------------
+            //一种：参数请求体 form 表单 FormBody 是封装好的一种 RequestBody
+            FormBody paramsBody = new FormBody.Builder()
+                    .add("id", "currentPlan.getPlanId() + ")
+                    .add("name", "currentPlan.getName()")
+                    .add("volume", "currentPlan.getVolume()")
+                    .add("type", "currentPlan.getType() + ")
+                    .add("mode", "currentPlan.getMode() +")
+                    .build();
+    -------------------------------------------------------------------------
+
+            //二种：文件请求体 MediaType 详情 在上面
+            文件请求 MediaType 大多数设置为二进制流，也有具体指定格式的 如 Gif 等
+            MediaType type = MediaType.parse("application/octet-stream");
+            File file = new File("/data/data/com.example.company/files/plan/plans.xml");
+            RequestBody fileBody = RequestBody.create(type, file);
+    -------------------------------------------------------------------------
+
+            //三种：混合参数和文件请求
+            表单和文件一起 提交
+
+
+            RequestBody multipartBody = new MultipartBody.Builder();
+            MultipartBody.Builder builder  new MultipartBody.Builder()
+
+            设置TYPE MultipartBody
+            有5中静态 type  MIXED ALTERNATIVE DIGEST PARALLEL FORM 按服务器需求进行设置
+            MIXED 为混合表单
+            builder .setType(MultipartBody.MIXED)
+
+            builder .addPart(Headers.of("Content-Disposition", "form-data; name=\"params\""), paramsBody)
+            builder .addPart(Headers.of("Content-Disposition", "form-data; name=\"file\"; filename=\"plans.xml\""), fileBody)
+
+             和 addPart 一样的效果 详情见源码
+            .addFormDataPart("id",currentPlan.getPlanId()+"")
+            .addFormDataPart("name",currentPlan.getName())
+            .addFormDataPart("volume",currentPlan.getVolume())
+            .addFormDataPart("type",currentPlan.getType()+"")
+            .addFormDataPart("mode",currentPlan.getMode()+"")
+            .addFormDataPart("params","plans.xml",fileBody)
+             .build();
+
+
+  ---------------------------------------------------------------------------------------------------------
+             addFormDataPart 和  addPart 都是创建 Part
+             创建Part 源码
+             name 为参数名  如果是上传文件则filename 为 上传File 的名字，RequestBody body 下面进行讲解
+            public static Part createFormData(String name, @Nullable String filename, RequestBody body) {
+                  if (name == null) {
+                    throw new NullPointerException("name == null");
+                  }
+                  StringBuilder disposition = new StringBuilder("form-data; name=");
+                  appendQuotedString(disposition, name);
+
+                  if (filename != null) {
+                    disposition.append("; filename=");
+                    appendQuotedString(disposition, filename);
+                  }
+
+                  return create(Headers.of("Content-Disposition", disposition.toString()), body);
+                }
+                ----------------------------------------------------------------------------------
+                RequestBody
+
+                  public static RequestBody create(final @Nullable MediaType contentType, final File file)
+                  public static RequestBody create(@Nullable MediaType contentType, String content)
+                  创建 RequestBody MediaType 不用多说了，一种是创建文件 一种是参数的，一目了然
+   --------------------------------------------------------------------------------------------------
+
+            Request request = new Request.Builder().url("http://192.168.1.121:8080/Server/Service")
+                    .addHeader("User-Agent", "android")
+                    .header("Content-Type", "text/html; charset=utf-8;")
+                    .post(multipartBody)//传参数、文件或者混合，改一下就行请求体就行
+                    .build();
+

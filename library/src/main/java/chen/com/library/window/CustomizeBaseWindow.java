@@ -3,7 +3,6 @@ package chen.com.library.window;
 import android.animation.Animator;
 import android.content.Context;
 import android.graphics.PixelFormat;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
@@ -19,6 +18,7 @@ import static android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND;
 import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR;
 import static android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+import static android.view.WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
 
 public class CustomizeBaseWindow extends SimpleAnimatorListener implements RootFrameLayout.onBackPressed {
 
@@ -43,6 +43,7 @@ public class CustomizeBaseWindow extends SimpleAnimatorListener implements RootF
         contentView.setAlpha(0);
         contentView.setScaleX(0);
         contentView.setScaleY(0);
+        isFullScreen = true;
     }
 
     private ViewPropertyAnimator inAnimate;
@@ -62,9 +63,11 @@ public class CustomizeBaseWindow extends SimpleAnimatorListener implements RootF
                     | FLAG_LAYOUT_INSET_DECOR
                     | FLAG_FULLSCREEN;
         } else {
+            params.flags =  FLAG_WATCH_OUTSIDE_TOUCH;
             params.width = WindowManager.LayoutParams.WRAP_CONTENT;
             params.height = WindowManager.LayoutParams.WRAP_CONTENT;
             params.flags = FLAG_DIM_BEHIND;
+
         }
     }
 
@@ -88,6 +91,7 @@ public class CustomizeBaseWindow extends SimpleAnimatorListener implements RootF
         params.dimAmount = 0.4f;
         params.type = WindowManager.LayoutParams.TYPE_APPLICATION;
         wm.addView(contentView, params);
+
         attached = true;
         if (inAnimate == null) {
             contentView.post(new Runnable() {

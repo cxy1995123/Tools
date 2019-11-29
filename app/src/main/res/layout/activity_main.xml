@@ -17,14 +17,16 @@
         app:title="123123213" />
 
     <Button
-        android:onClick="send"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:onClick="send" />
 
     <Button
-        android:onClick="cancel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:onClick="cancel" />
 
+    <chen.com.library.view.ExpendTextView
+        style="@style/expend_text" />
 
 </LinearLayout>

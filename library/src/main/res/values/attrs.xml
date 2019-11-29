@@ -40,6 +40,9 @@
         <attr name="android:textSize" />
         <attr name="android:textColor" />
         <attr name="android:text" />
+        <attr name="android:lineSpacingExtra" />
+        <attr name="android:lineSpacingMultiplier" />
+        <attr name="expanded" format="boolean" />
     </declare-styleable>
 
 

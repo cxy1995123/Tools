@@ -4,23 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
 
 import java.util.List;
 
-import chen.com.library.activity.permission.OnRequestPermissionResultListener;
-import chen.com.library.activity.permission.PermissionRequest;
 import chen.com.library.systembar.StatusBarCompat;
-import chen.com.library.tools.JobServiceBuilder;
-import chen.com.library.view.RootFrameLayout;
 import chen.com.library.window.CustomizeBaseWindow;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,32 +25,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         StatusBarCompat.translucentStatusBar(this, true);
-        PermissionRequest.builder()
-                .permission(Manifest.permission.RECEIVE_BOOT_COMPLETED)
-                .requestCode(200)
-                .proxyListener(new OnRequestPermissionResultListener() {
-                    @Override
-                    public void onPermissionGranted() {
-
-                    }
-
-                    @Override
-                    public void onPermissionDenied(List<String> denied) {
-
-                    }
-                }).create()
-                .request(this);
     }
 
     CustomizeBaseWindow window;
 
     public void send(View view2) {
-        View view = LayoutInflater.from(this).inflate(R.layout.view_float, null);
-        window = new CustomizeBaseWindow(this, view);
-        window.show();
+        startActivity(new Intent(this, ChatActivity.class));
     }
 
     public void cancel(View view) {
         window.dismiss();
+    }
+
+    public String getAppMetaData(String var0) {
+        try {
+            PackageManager var1 = getPackageManager();
+            String var2 = getPackageName();
+            ApplicationInfo applicationInfo;
+
+            if ((applicationInfo = var1.getApplicationInfo(var2, PackageManager.GET_META_DATA)) != null
+                    && applicationInfo.metaData != null && applicationInfo.metaData.containsKey(var0)) {
+                return String.valueOf(applicationInfo.metaData.get(var0));
+            }
+        } catch (PackageManager.NameNotFoundException var3) {
+            Log.e("AMS", "Meta data name " + var0 + " not found!");
+        }
+
+        return null;
     }
 }

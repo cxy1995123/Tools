@@ -110,30 +110,6 @@ class CoroutineLifecycleListener(private val deferred: Deferred<*>) : LifecycleO
 
 //</editor-fold>
 
-//<editor-fold desc="扩展">
-
-@Suppress("UNCHECKED_CAST")
-class Coroutinehelper(var parentJob: Job) {
-    var deferred: Deferred<Any>? = null
-    fun <T> async(loader: () -> T): Coroutinehelper {
-        deferred = async(context = Dispatchers.Default, start = CoroutineStart.LAZY) {
-        
-        }
-        return this@Coroutinehelper
-    }
-    
-    suspend fun <T> mainThread(block: (T) -> Unit) {
-        withContext(Dispatchers.Main) {
-            if (parentJob.isActive) {
-                val await = deferred!!.await()
-                block(await as T)
-            }
-        }
-    }
-}
-
-
-//</editor-fold>
 
 
 

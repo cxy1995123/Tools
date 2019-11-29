@@ -13,6 +13,9 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -234,6 +237,38 @@ public class Util {
         }
 
         return s_hours + ":" + s_minute + ":" + s_second;
+    }
+
+    public static void hideKeyBord(Activity context) {
+        try {
+            ((InputMethodManager) context
+                    .getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .hideSoftInputFromWindow(context.getCurrentFocus()
+                                    .getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+        } catch (Exception e) {
+        }
+    }
+
+    public static void showKeyBoard(EditText editText) {
+        InputMethodManager methodManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (methodManager != null) {
+            editText.requestFocus();
+            methodManager.showSoftInput(editText, 0);
+        }
+    }
+
+    public static void hideKeyBord(EditText view) {
+
+        try {
+            InputMethodManager manager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (manager != null)
+                manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } catch (Exception e) {
+
+        }
+
+
     }
 
 }
