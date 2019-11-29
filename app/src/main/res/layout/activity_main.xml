@@ -26,7 +26,10 @@
         android:layout_height="wrap_content"
         android:onClick="cancel" />
 
-    <chen.com.library.view.ExpendTextView
-        style="@style/expend_text" />
+
+    <chen.com.library.view.TagEditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
