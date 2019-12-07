@@ -3,9 +3,10 @@ package chen.com.kotlin_test
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
-    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -14,21 +15,10 @@ class MainActivity : AppCompatActivity() {
         }.then {
             Log.i("MainActivity", "then" + Thread.currentThread().name)
         }
-        
+    }
+
+    fun onClick(view: View) {
+        Toast.makeText(this, "123", Toast.LENGTH_SHORT).show()
     }
 }
 
-fun main() {
-    
-    val x = 1
-    val y = 2
-    val z = 4
-    
-    val zz = 6
-    
-    println(zz.and(x))
-    println(zz.and(y))
-    println(zz.and(z))
-    
-    
-}

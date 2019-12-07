@@ -62,7 +62,7 @@ public class PermissionRequest {
                 }
             }
 
-            if (activity != null) {
+            if (activity != null && !activity.isFinishing()) {
                 activity.getFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
             }
             onDestroy(fragment);
@@ -78,7 +78,7 @@ public class PermissionRequest {
             listener = null;
         }
 
-        if (permission!=null){
+        if (permission != null) {
             permission = null;
         }
     }

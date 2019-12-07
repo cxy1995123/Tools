@@ -29,8 +29,8 @@ android {
         freeCompilerArgs = ['-Xjvm-default=compatibility']
     }
 
-    // A表示构建的 TV 端或者 手机端
-    // B表示构建的 是小米或者百度的
+    // A表示构建的 pad 端或者 手机端
+    // B表示构建的 是小米或者华为的
     flavorDimensions "A", "B"
     productFlavors {
 
@@ -38,7 +38,7 @@ android {
             dimension "A"
         }
 
-        TV {
+        pad {
             dimension "A"
         }
 
@@ -51,11 +51,11 @@ android {
             applicationIdSuffix = '.xiaomi'
 //            signingConfig signingConfigs.release
         }
-        baidu {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "baidu"]
+        huawei {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "huawei"]
             dimension = 'B'
             minSdkVersion 21
-            applicationIdSuffix = '.baidu'
+            applicationIdSuffix = '.huawei'
 //            signingConfig signingConfigs.release
         }
     }

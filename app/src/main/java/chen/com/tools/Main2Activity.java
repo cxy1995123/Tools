@@ -25,8 +25,6 @@ import android.view.Menu;
 
 public class Main2Activity extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

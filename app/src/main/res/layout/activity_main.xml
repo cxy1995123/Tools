@@ -16,9 +16,11 @@
         app:buttonGravity="center_vertical"
         app:title="123123213" />
 
-    <chen.com.library.view.ClipRoundedRectangleFrameLayout
-        android:layout_width="300dp"
-        android:layout_height="300dp">
-    </chen.com.library.view.ClipRoundedRectangleFrameLayout>
+    <Button
+        android:text="请求权限"
+        android:onClick="send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 
 </LinearLayout>
