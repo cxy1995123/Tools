@@ -1,22 +1,19 @@
 package chen.com.tools;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-
-import android.Manifest;
-import android.graphics.Color;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
-import java.util.List;
-
-import chen.com.library.activity.permission.OnRequestPermissionResultListener;
-import chen.com.library.activity.permission.PermissionRequest;
+import android.widget.EditText;
 import chen.com.library.systembar.StatusBarCompat;
+import chen.com.library.view.TagEditText;
+import chen.com.library.window.CustomizeBaseWindow;
 
 public class MainActivity extends AppCompatActivity {
+    TagEditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,24 +21,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         StatusBarCompat.translucentStatusBar(this, true);
+        editText = findViewById(R.id.editText);
+        editText.setListener(new TagEditText.OnAddTagListener() {
+            @Override
+            public TagEditText.TagSpan onAddTagSpan(EditText editText) {
+                return new TagEditText.TagSpan(editText.getContext(), "这是一枚标签");
+            }
+        });
+    }
+    CustomizeBaseWindow window;
 
+    public void send(View view2) {
+        startActivity(new Intent(this, ChatActivity.class));
     }
 
-    public void send(View view) {
-        PermissionRequest.builder()
-                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .requestCode(9)
-                .proxyListener(new OnRequestPermissionResultListener() {
-                    @Override
-                    public void onPermissionGranted() {
-                        Log.i("MainActivity", "onPermissionGranted: ");
-                    }
+    public void cancel(View view) {
+        window.dismiss();
+    }
 
-                    @Override
-                    public void onPermissionDenied(List<String> denied) {
-                        Log.i("MainActivity", "onPermissionDenied: " + denied.toString());
-                    }
-                }).request(this);
+    public String getAppMetaData(String var0) {
+        try {
+            PackageManager var1 = getPackageManager();
+            String var2 = getPackageName();
+            ApplicationInfo applicationInfo;
 
+            if ((applicationInfo = var1.getApplicationInfo(var2, PackageManager.GET_META_DATA)) != null
+                    && applicationInfo.metaData != null && applicationInfo.metaData.containsKey(var0)) {
+                return String.valueOf(applicationInfo.metaData.get(var0));
+            }
+        } catch (PackageManager.NameNotFoundException var3) {
+            Log.e("AMS", "Meta data name " + var0 + " not found!");
+        }
+
+        return null;
     }
 }

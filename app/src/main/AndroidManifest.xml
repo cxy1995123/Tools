@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="chen.com.tools">
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -28,7 +29,10 @@
 
         </activity>
 
-        <activity android:name=".Main2Activity">
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustUnspecified"
+            android:name=".ChatActivity">
 
         </activity>
 
@@ -36,6 +40,10 @@
             android:name="APP_CHANNEL"
             android:value="${APP_CHANNEL_VALUE}" />
 
+        <service
+            android:process=":keep"
+            android:name=".TestJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

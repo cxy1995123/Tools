@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="default_text">
+        <item name="android:text">123</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="expend_text">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="expend_min_line">4</item>
+        <item name="expend_tips_icon">@drawable/ic_menu_camera</item>
+        <item name="android:text">@string/txt</item>
+    </style>
+
+
+</resources>
