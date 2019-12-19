@@ -1,4 +1,4 @@
-package chen.com.library.net.Okhttp.client;
+package chen.com.library.net.okHttp3.client;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -13,9 +13,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import chen.com.library.net.Okhttp.Headers;
-import chen.com.library.net.Okhttp.RequestType;
-import chen.com.library.net.Okhttp.builder.Params;
+import chen.com.library.net.okHttp3.Headers;
+import chen.com.library.net.okHttp3.RequestType;
+import chen.com.library.net.okHttp3.builder.Params;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Interceptor;
@@ -24,10 +24,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import static chen.com.library.net.Okhttp.RequestType.FROM;
-import static chen.com.library.net.Okhttp.RequestType.GET;
-import static chen.com.library.net.Okhttp.RequestType.JSON;
-import static chen.com.library.net.Okhttp.RequestType.MULTI_PART;
+import static chen.com.library.net.okHttp3.RequestType.FROM;
+import static chen.com.library.net.okHttp3.RequestType.GET;
+import static chen.com.library.net.okHttp3.RequestType.JSON;
+import static chen.com.library.net.okHttp3.RequestType.MULTI_PART;
 
 @SuppressLint("CheckResult")
 public class RequestClient {

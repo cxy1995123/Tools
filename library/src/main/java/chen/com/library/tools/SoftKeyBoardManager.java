@@ -1,4 +1,4 @@
-package chen.com.tools;
+package chen.com.library.tools;
 
 import android.annotation.SuppressLint;
 import android.graphics.Rect;
@@ -8,7 +8,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import chen.com.library.tools.DisplayHelper;
+import chen.com.library.view.IMChatView;
 
 @SuppressLint("ObsoleteSdkInt")
 public class SoftKeyBoardManager {

@@ -1,7 +1,5 @@
 package chen.com.library.data;
 
-
-import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -11,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,10 +18,14 @@ import java.util.regex.Pattern;
  *
  * @author chenXingYu
  */
+@SuppressWarnings("WeakerAccess")
 public class TimeDate {
-    public static final long DAY_OF_MILLISECOND = 86400000;
+    private static final long DAY_OF_MILLISECOND = 86400000;
 
     private static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+    private static final String SIMPLE_PATTERN = "yyyy-MM-dd";
+
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DEFAULT_PATTERN, Locale.CHINA);
     private String dateStr;
     private Date date;
@@ -62,20 +65,18 @@ public class TimeDate {
         this(new Date(time), null);
     }
 
-
     private TimeDate(@Nullable Date date, @Nullable String str) {
-        if (!TextUtils.isEmpty(str)) {
+        if (!isEmpty(str)) {
             setValue(str);
         } else if (date != null) {
             initDate(date);
         } else {
             initDate(null);
         }
-
     }
 
     private void initDate(@Nullable Date date) {
-        if (!TextUtils.isEmpty(dateStr)) {
+        if (!isEmpty(dateStr)) {
             try {
                 divisionStringTime(dateStr);
                 String string = getTimeString();
@@ -106,29 +107,44 @@ public class TimeDate {
             String var = matcher.group();
             switch (i) {
                 case 0:
-                    year = TextUtils.isDigitsOnly(var) ? Integer.valueOf(var) : 1970;
+                    year = isDigitsOnly(var) ? Integer.valueOf(var) : 1970;
                     break;
                 case 1:
-                    month = TextUtils.isDigitsOnly(var) ? Integer.valueOf(var) : 1;
+                    month = isDigitsOnly(var) ? Integer.valueOf(var) : 1;
                     break;
                 case 2:
-                    day = TextUtils.isDigitsOnly(var) ? Integer.valueOf(var) : 1;
+                    day = isDigitsOnly(var) ? Integer.valueOf(var) : 1;
                     break;
                 case 3:
-                    hour = TextUtils.isDigitsOnly(var) ? Integer.valueOf(var) : 1;
+                    hour = isDigitsOnly(var) ? Integer.valueOf(var) : 1;
                     break;
                 case 4:
-                    minute = TextUtils.isDigitsOnly(var) ? Integer.valueOf(var) : 1;
+                    minute = isDigitsOnly(var) ? Integer.valueOf(var) : 1;
                     break;
                 case 5:
-                    second = TextUtils.isDigitsOnly(var) ? Integer.valueOf(var) : 1;
+                    second = isDigitsOnly(var) ? Integer.valueOf(var) : 1;
                     break;
                 case 6:
-                    millisecond = TextUtils.isDigitsOnly(var) ? Integer.valueOf(var) : 1;
+                    millisecond = isDigitsOnly(var) ? Integer.valueOf(var) : 1;
                     break;
             }
 
         }
+    }
+
+    private static boolean isEmpty(String str) {
+        return str == null || str.length() == 0;
+    }
+
+    private static boolean isDigitsOnly(String str) {
+        final int len = str.length();
+        for (int cp, i = 0; i < len; i += Character.charCount(cp)) {
+            cp = Character.codePointAt(str, i);
+            if (!Character.isDigit(cp)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -146,6 +162,7 @@ public class TimeDate {
      * @param pattern yyyy-MM-dd HH:mm:ss
      * @return 返回自定义格式时间字符串
      **/
+    @SuppressWarnings("WeakerAccess")
     public String getTime(String pattern) {
         if (date == null) {
             Log.e("TimeDate", "getTime: " + "data is null");
@@ -163,8 +180,12 @@ public class TimeDate {
         return getTime(DEFAULT_PATTERN);
     }
 
+    public String getSimpleTime() {
+        return getTime(SIMPLE_PATTERN);
+    }
+
     private String valueOf(int value) {
-        return value < 10 ? "0" + String.valueOf(value) : String.valueOf(value);
+        return value < 10 ? "0" + value : String.valueOf(value);
     }
 
     public void setValue(String var) {
@@ -198,6 +219,79 @@ public class TimeDate {
 
     public int getMillisecond() {
         return millisecond;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public void setMillisecond(int millisecond) {
+        this.millisecond = millisecond;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
+    }
+
+    public void refreshTime() {
+        StringBuilder builder = new StringBuilder();
+        String monthStr;
+        if (this.month < 10) {
+            monthStr = "0" + this.month;
+        } else {
+            monthStr = String.valueOf(month);
+        }
+
+        String dayStr;
+        if (this.day < 10) {
+            dayStr = "0" + this.day;
+        } else {
+            dayStr = String.valueOf(day);
+        }
+
+
+        String hourStr;
+        if (hour < 10) {
+            hourStr = "0" + this.hour;
+        } else {
+            hourStr = String.valueOf(hour);
+        }
+
+        String minuteStr;
+        if (minute < 10) {
+            minuteStr = "0" + this.minute;
+        } else {
+            minuteStr = String.valueOf(minute);
+        }
+
+        String secondStr;
+        if (second < 10) {
+            secondStr = "0" + this.second;
+        } else {
+            secondStr = String.valueOf(second);
+        }
+        //yyyy-MM-dd HH:mm:ss
+        builder.append(year).append("-").append(monthStr).append("-").append(dayStr);
+        builder.append(" ").append(hourStr).append(":").append(minuteStr)
+                .append(":").append(secondStr);
+        dateStr = builder.toString();
+        initDate(null);
     }
 
     /**
@@ -321,5 +415,22 @@ public class TimeDate {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+
+        if (obj instanceof TimeDate) {
+            return compareTo((TimeDate) obj) == 0;
+        }
+
+        return false;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dateStr);
     }
 }

@@ -1,19 +1,24 @@
 package chen.com.tools;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+
 import chen.com.library.systembar.StatusBarCompat;
-import chen.com.library.view.TagEditText;
-import chen.com.library.window.CustomizeBaseWindow;
+
+import static android.hardware.SensorManager.SENSOR_DELAY_NORMAL;
 
 public class MainActivity extends AppCompatActivity {
-    TagEditText editText;
+    LightManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,38 +26,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         StatusBarCompat.translucentStatusBar(this, true);
-        editText = findViewById(R.id.editText);
-        editText.setListener(new TagEditText.OnAddTagListener() {
+        manager = LightManager.create(this);
+        manager.setListener(new LightManager.OnSensorChangedListener() {
             @Override
-            public TagEditText.TagSpan onAddTagSpan(EditText editText) {
-                return new TagEditText.TagSpan(editText.getContext(), "这是一枚标签");
+            public void OnSensorChanged(boolean isBelowStandard, float value) {
+                Log.i("MainActivity", "OnSensorChanged: " + isBelowStandard + "," + value);
             }
         });
-    }
-    CustomizeBaseWindow window;
 
-    public void send(View view2) {
-        startActivity(new Intent(this, ChatActivity.class));
     }
 
-    public void cancel(View view) {
-        window.dismiss();
+
+    public void openCameraActivity(View view) {
+        startActivity(new Intent(this, CameraActivity.class));
     }
 
-    public String getAppMetaData(String var0) {
-        try {
-            PackageManager var1 = getPackageManager();
-            String var2 = getPackageName();
-            ApplicationInfo applicationInfo;
-
-            if ((applicationInfo = var1.getApplicationInfo(var2, PackageManager.GET_META_DATA)) != null
-                    && applicationInfo.metaData != null && applicationInfo.metaData.containsKey(var0)) {
-                return String.valueOf(applicationInfo.metaData.get(var0));
-            }
-        } catch (PackageManager.NameNotFoundException var3) {
-            Log.e("AMS", "Meta data name " + var0 + " not found!");
-        }
-
-        return null;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        manager.destory();
     }
 }

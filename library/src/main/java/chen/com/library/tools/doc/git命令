@@ -1,0 +1,39 @@
+//查看所有分支
+git branch -a
+
+//新建分支
+git branch branch_name
+
+//切换分支
+git checkout branch_name
+
+//推送到远端
+git push origin branch_name
+
+//删除分支
+git branch -d <分支名>
+
+//获取远程仓库所有分支名
+git fetch
+
+//创建并切换分支
+git checkout -b 分支名
+----------------------------------------------------
+在远端服务器新建分支：
+
+方法1：
+git checkout -b dev
+#建立本地到上游（远端）仓的链接 --这样代码才能提交上去
+git branch --set-upstream-to=origin/dev
+git branch --set-upstream debug origin/debug //其中debug为创建的分支
+git push origin dev
+
+方法2：
+
+git branch -b stage2
+git push origin 本地分支名:远端分支名xx  // 在服務器新建新分支名xxx
+-----------------------------------------------------------------------------------
+git checkout -b dev(本地分支名称) origin/dev(远程分支名称)
+
+#取消对master的跟踪
+git branch --unset-upstream master
