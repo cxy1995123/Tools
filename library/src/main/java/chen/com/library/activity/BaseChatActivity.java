@@ -1,4 +1,4 @@
-package chen.com.tools;
+package chen.com.library.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 

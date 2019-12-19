@@ -21,6 +21,37 @@ android {
         }
     }
 
+    // A表示构建的 pad 端或者 手机端
+    // B表示构建的 是小米或者华为的
+    flavorDimensions "A", "B"
+    productFlavors {
+
+        phone {
+            dimension "A"
+        }
+
+        pad {
+            dimension "A"
+        }
+
+
+        xiaomi {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "xiaomi"]
+            dimension = 'B'
+            minSdkVersion 21
+            applicationId = '21'
+            applicationIdSuffix = '.xiaomi'
+//            signingConfig signingConfigs.release
+        }
+        huawei {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "huawei"]
+            dimension = 'B'
+            minSdkVersion 21
+            applicationIdSuffix = '.huawei'
+//            signingConfig signingConfigs.release
+        }
+    }
+
 }
 
 dependencies {

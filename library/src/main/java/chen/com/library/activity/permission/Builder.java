@@ -1,5 +1,7 @@
 package chen.com.library.activity.permission;
 
+import android.app.Activity;
+
 public class Builder {
     private String[] permission;
     private int requestCode = 0x0014;
@@ -31,6 +33,14 @@ public class Builder {
         request.permission = permission;
         request.listener = listener;
         return request;
+    }
+
+    public void request(Activity activity) {
+        PermissionRequest request = new PermissionRequest();
+        request.requestCode = requestCode;
+        request.permission = permission;
+        request.listener = listener;
+        request.request(activity);
     }
 
 
