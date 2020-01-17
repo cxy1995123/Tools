@@ -10,7 +10,9 @@ import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
+import chen.com.library.tools.SoftKeyBoardManager;
 import chen.com.library.tools.Util;
+import chen.com.library.view.IMChatView;
 
 @SuppressLint("Registered")
 public abstract class BaseChatActivity extends Activity implements IMChatView, View.OnClickListener {

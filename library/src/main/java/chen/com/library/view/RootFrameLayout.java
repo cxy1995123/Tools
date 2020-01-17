@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -35,12 +36,11 @@ public class RootFrameLayout extends FrameLayout {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        Log.i("RootFrameLayout", "dispatchKeyEvent: " + event.getAction());
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            return onBackPressed.onBack();
-        } else {
-            return super.dispatchKeyEvent(event);
+            if (onBackPressed != null) {
+                return onBackPressed.onBack();
+            }
         }
-//        return super.dispatchKeyEvent(event);
+        return super.dispatchKeyEvent(event);
     }
 }
