@@ -52,6 +52,23 @@
         <attr name="android:lineSpacingMultiplier" />
         <attr name="expanded" format="boolean" />
     </declare-styleable>
+    <!--    private float left_fillet = 30;
+        private float top_fillet = 30;
+        private float right_fillet = 30;
+        private float bottom_fillet = 30;-->
+    <declare-styleable name="FilletButton">
+        <attr name="left_top_fillet" format="dimension" />
+        <attr name="right_top_fillet" format="dimension" />
+        <attr name="left_bottom_fillet" format="dimension" />
+        <attr name="right_bottom_fillet" format="dimension" />
+        <attr name="buttonRadius" format="dimension" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="pressColor" format="color" />
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
+        <attr name="android:text" />
+
+    </declare-styleable>
 
     <declare-styleable name="CameraView">
         <!--

@@ -3,14 +3,17 @@ package chen.com.library.window;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.PopupWindow;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import chen.com.library.view.RootFrameLayout;
 
@@ -33,21 +36,31 @@ public abstract class BasePopupView extends SimpleAnimatorListener
     private boolean attached = false;
     private WindowManager wm;
     private int animDuration = 200;
+    private View decorView;
 
-    public BasePopupView(Activity context) {
-        this((Context) context);
+    public BasePopupView(Fragment fragment) {
+        this(fragment.getContext());
     }
 
     protected abstract int onContentLayout();
 
-    public BasePopupView(Context context) {
+    public BasePopupView(@Nullable Context context) {
+        if (context == null) {
+            throw new NullPointerException("context Can not be empty");
+        }
         this.context = context;
         wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        RootFrameLayout rootFrameLayout = new RootFrameLayout(context);
         View view = LayoutInflater.from(context).inflate(onContentLayout(), null, false);
-        rootFrameLayout.addView(view);
-        view = rootFrameLayout;
-        rootFrameLayout.setOnBackPressed(this);
+        if (view instanceof ViewGroup) {
+            if (view instanceof RootFrameLayout) {
+                ((RootFrameLayout) view).setOnBackPressed(this);
+            }
+        } else {
+            RootFrameLayout rootFrameLayout = new RootFrameLayout(context);
+            rootFrameLayout.addView(view);
+            view = rootFrameLayout;
+            rootFrameLayout.setOnBackPressed(this);
+        }
         this.contentView = view;
     }
 
@@ -73,7 +86,7 @@ public abstract class BasePopupView extends SimpleAnimatorListener
 
     private AnimatorSet inAnimate;
 
-    private AnimatorSet outAnim;
+    private AnimatorSet outAnimate;
 
     private void setWindowSize(WindowManager.LayoutParams params, boolean isFullScreen) {
         if (isFullScreen) {
@@ -125,14 +138,26 @@ public abstract class BasePopupView extends SimpleAnimatorListener
         return set;
     }
 
-    public void show() {
-        if (wm == null) return;
+
+
+    public void show(final View view) {
+        if (wm == null || view == null) return;
+        decorView = view;
+        decorView.addOnAttachStateChangeListener(listener);
+        if (view.isAttachedToWindow()) {
+            invokePopup(view);
+        }
+
+    }
+
+    private void invokePopup(View view) {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        params.token = view.getWindowToken();
         params.format = PixelFormat.TRANSLUCENT;
         setWindowSize(params, isFullScreen);
         params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
         params.dimAmount = 0.4f;
-        params.type = WindowManager.LayoutParams.TYPE_APPLICATION;
+        params.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL;
         wm.addView(contentView, params);
         if (inAnimate == null && !attached) {
             inAnimate = buildIntAnim();
@@ -144,30 +169,57 @@ public abstract class BasePopupView extends SimpleAnimatorListener
         }
     }
 
-    public void dismiss() {
-        if (inAnimate != null) {
-            inAnimate.cancel();
-            inAnimate = null;
-        }
-        if (attached && contentView != null && outAnim == null) {
-            outAnim = buildOutAnim();
-            if (outAnim != null) {
-                outAnim.start();
-            } else {
-                dismiss();
-            }
-        }
-    }
-
-    @Override
-    public void onAnimationEnd(Animator animation) {
+    private void invokeDismiss() {
         if (attached && wm != null) {
             attached = false;
             context = null;
             wm.removeViewImmediate(contentView);
             wm = null;
         }
+        if (decorView != null) {
+            decorView.removeOnAttachStateChangeListener(listener);
+            listener = null;
+            decorView = null;
+        }
     }
+
+    public void dismiss() {
+        if (inAnimate != null) {
+            inAnimate.cancel();
+            inAnimate = null;
+        }
+        if (attached && contentView != null && outAnimate == null) {
+            outAnimate = buildOutAnim();
+            if (outAnimate != null) {
+                outAnimate.start();
+            } else {
+                invokeDismiss();
+            }
+        }
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        invokeDismiss();
+    }
+
+
+    private View.OnAttachStateChangeListener listener = new View.OnAttachStateChangeListener() {
+        @Override
+        public void onViewAttachedToWindow(View v) {
+            if (!attached) {
+                invokePopup(v);
+            }
+        }
+
+        @Override
+        public void onViewDetachedFromWindow(View v) {
+            if (attached){
+                invokeDismiss();
+            }
+        }
+    };
+
 
     @Override
     public boolean onBack() {

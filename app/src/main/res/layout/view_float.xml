@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<chen.com.library.view.RootFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00FFFFFF"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="200dp"
         android:layout_height="200dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
         android:layout_gravity="center"
         android:background="#DFAD18"
         android:orientation="vertical">
@@ -22,11 +24,11 @@
 
         </TextView>
 
+        <EditText
+            android:layout_marginTop="36dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
         <Button
             android:id="@+id/button"
@@ -34,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal" />
 
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
 
 
-</FrameLayout>
+</chen.com.library.view.RootFrameLayout>

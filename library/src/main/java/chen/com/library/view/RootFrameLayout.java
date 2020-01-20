@@ -36,11 +36,9 @@ public class RootFrameLayout extends FrameLayout {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        if (onBackPressed == null) return super.dispatchKeyEvent(event);
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            if (onBackPressed != null) {
-                return onBackPressed.onBack();
-            }
-        }
-        return super.dispatchKeyEvent(event);
+            return onBackPressed.onBack() || super.dispatchKeyEvent(event);
+        } else return super.dispatchKeyEvent(event);
     }
 }

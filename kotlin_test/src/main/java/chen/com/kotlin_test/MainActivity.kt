@@ -17,3 +17,25 @@ class MainActivity : AppCompatActivity() {
     }
     
 }
+
+fun main() {
+    
+    val list = mutableListOf<Int>()
+    
+    for (index in 0..100) {
+        list.add(index)
+    }
+    
+    for (i in list) {
+        println(i)
+        if (i == 10) {
+            continue
+        }
+        
+    }
+    
+    
+    println(100)
+    
+    
+}
