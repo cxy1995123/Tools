@@ -1,7 +1,6 @@
 package chen.com.library.adapter;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.view.LayoutInflater;
@@ -9,13 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AbstractAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> {
+public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> {
 
     protected Fragment fragment;
     protected Activity activity;
@@ -44,7 +44,7 @@ public abstract class AbstractAdapter<T> extends RecyclerView.Adapter<BaseViewHo
         void onItemClick(RecyclerView.ViewHolder viewHolder, View itemView, T t, int pos);
     }
 
-    public AbstractAdapter(Context context) {
+    public BaseAdapter(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
         if (context instanceof Activity) {
@@ -60,12 +60,12 @@ public abstract class AbstractAdapter<T> extends RecyclerView.Adapter<BaseViewHo
         }
     }
 
-    public AbstractAdapter(Fragment fragment) {
+    public BaseAdapter(Fragment fragment) {
         this(fragment.getActivity());
         this.fragment = fragment;
     }
 
-    public AbstractAdapter(Activity activity) {
+    public BaseAdapter(Activity activity) {
         this.activity = activity;
         this.list = new ArrayList<>();
     }

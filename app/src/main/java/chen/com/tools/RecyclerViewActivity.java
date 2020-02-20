@@ -18,7 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import chen.com.library.adapter.AbstractAdapter;
+import chen.com.library.adapter.BaseAdapter;
 import chen.com.library.adapter.BaseViewHolder;
 import chen.com.library.systembar.StatusBarCompat;
 
@@ -74,7 +74,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
 
 
-    class TextAdapter extends AbstractAdapter<String> {
+    class TextAdapter extends BaseAdapter<String> {
 
         public TextAdapter(Activity activity) {
             super(activity);

@@ -1,10 +1,12 @@
-package chen.com.tools;
+package chen.com.tools.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
+import android.Manifest;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +14,11 @@ import android.view.View;
 
 import chen.com.library.data.TimeDate;
 import chen.com.library.systembar.StatusBarCompat;
-import chen.com.library.wifi.client.WifiClient;
-import chen.com.library.window.BasePopupView;
+
+import chen.com.tools.R;
+import chen.com.tools.fragment.DocumentManagerFragment;
+import chen.com.tools.fragment.ExoPlayerFragment;
+import chen.com.tools.fragment.ExpendList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("MainActivity", "onClick: ");
             }
         });
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+
     }
 
     @Override
@@ -40,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void openCameraActivity(View view) {
-//        startActivity(new Intent(this, RecyclerViewActivity.class));
-        TestFloatView view1 = new TestFloatView(this);
-        view1.show(getWindow().getDecorView());
+//        ExoPlayerFragment.launch(this);
+//        DocumentManagerFragment.launch(this);
+        ExpendList.launch(this);
     }
 
     @Override

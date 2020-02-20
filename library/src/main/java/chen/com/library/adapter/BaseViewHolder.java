@@ -19,7 +19,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
         return getContext().getResources().getColor(id);
     }
 
-    protected AbstractAdapter.OnItemClickListener<T> onItemClickListener;
+    protected BaseAdapter.OnItemClickListener<T> onItemClickListener;
 
     protected abstract void onBindViewHolder(T value);
 
@@ -38,7 +38,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
         this.context = context;
     }
 
-    public void setOnItemClickListener(AbstractAdapter.OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(BaseAdapter.OnItemClickListener<T> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 

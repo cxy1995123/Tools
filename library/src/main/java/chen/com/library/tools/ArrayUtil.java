@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 
 public class ArrayUtil {
@@ -54,5 +55,17 @@ public class ArrayUtil {
             return new ArrayList<T>();
         }
         return Arrays.asList(items);
+    }
+
+    /**
+     * 返回一个固定大小的集合,长度不可改变
+     */
+    public static <T> List<T> toList2(T[] items) {
+        ArrayList<T> list = new ArrayList<>();
+        if (items == null || items.length == 0) return list;
+        for (T item : items) {
+            list.add(item);
+        }
+        return list;
     }
 }
