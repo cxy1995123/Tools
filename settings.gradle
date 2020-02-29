@@ -1,2 +1,2 @@
-include ':app', ':EventBus', ':library', ':kotlin_test'
+include ':app', ':EventBus', ':library', ':kotlin_test', ':javalib'
 rootProject.name='Tools'

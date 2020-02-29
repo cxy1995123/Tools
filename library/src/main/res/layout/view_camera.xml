@@ -13,7 +13,7 @@
 
     </FrameLayout>
 
-    <android.support.v7.widget.AppCompatSeekBar
+    <androidx.appcompat.widget.AppCompatSeekBar
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:id="@+id/seekBar"

@@ -1,4 +1,4 @@
-package chen.com.library.net.Okhttp.builder;
+package chen.com.library.net.okHttp3.builder;
 
 
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Params extends HashMap<String, Object> {
 
 
-    public Params() {
+    private Params() {
     }
 
     public static Params build() {

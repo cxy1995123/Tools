@@ -16,20 +16,13 @@
         app:buttonGravity="center_vertical"
         app:title="123123213" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="send" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="cancel" />
-
-
-    <chen.com.library.view.TagEditText
-        android:id="@+id/editText"
+        android:onClick="openCameraActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+
+
 
 </LinearLayout>

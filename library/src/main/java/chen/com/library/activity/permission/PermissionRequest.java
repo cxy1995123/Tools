@@ -3,9 +3,14 @@ package chen.com.library.activity.permission;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.PermissionChecker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +86,37 @@ public class PermissionRequest {
         if (permission != null) {
             permission = null;
         }
+    }
+
+
+    public static boolean checkSelfPermission(Context context, String... permission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (getTargetSdkVersion(context) >= 23) {
+                for (String p : permission) {
+                    if (ContextCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
+                        return false;
+                    }
+                }
+            } else {
+                for (String p : permission) {
+                    if (PermissionChecker.checkSelfPermission(context, p) != PermissionChecker.PERMISSION_GRANTED) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private static int getTargetSdkVersion(Context context) {
+        try {
+            final PackageInfo info = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), 0);
+            return info.applicationInfo.targetSdkVersion;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 23;
     }
 
 }
