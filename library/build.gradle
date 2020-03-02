@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
@@ -35,4 +37,17 @@ dependencies {
 
     api 'com.google.code.gson:gson:2.8.5'
     api 'com.google.code.gson:gson-parent:2.8.5'
+
+    //kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //kotlin 协程
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
+
+    //全部功能
+    api 'com.google.android.exoplayer:exoplayer:2.11.0'
+    //自定义
+//    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.0'
+//    implementation 'com.google.android.exoplayer:exoplayer-dash:2.11.0'
+//    implementation 'com.google.android.exoplayer:exoplayer-ui:2.11.0'
 }

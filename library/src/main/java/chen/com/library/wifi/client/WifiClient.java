@@ -4,11 +4,13 @@ import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.List;
 
-import chen.com.library.wifi.WIFIHotSpot;
+
+import chen.com.library.tools.ArrayUtil;
 import chen.com.library.wifi.listener.WiFiConnectionChangeListener;
 import chen.com.library.wifi.listener.WiFiScanResultListener;
 import chen.com.library.wifi.listener.WiFiStateChangeListener;
@@ -41,22 +43,58 @@ public class WifiClient {
 
     private Context context;
 
-    public WifiClient(Context context) {
+    private static WifiClient client;
+
+    public static WifiClient getInstance(Context context) {
+        if (client == null) {
+            synchronized (WifiClient.class) {
+                if (client == null) {
+                    client = new WifiClient(context);
+                }
+            }
+        }
+        return client;
+    }
+
+    private WifiClient(Context context) {
         if (context == null) return;
         this.context = context;
         manager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+    }
+
+    public void registerReceiver() {
         receiver = WifiChangeBroadcastReceiver.registerReceiver(context);
         resultReceiver = WIFIScanResultReceiver.bind(context, manager);
     }
 
+    /**
+     * 断开当前连接的wifi
+     */
+    public boolean disconnect() {
+        try {
+            return manager.disconnect();
+        } catch (Exception ignored) {
+        }
+        return false;
+    }
+
+    /**
+     * wifi 连接状态监听
+     */
     public void setWiFiConnectionChangeListener(WiFiConnectionChangeListener listener) {
         receiver.setWiFiConnectionChangeListener(listener);
     }
 
+    /**
+     * wifi 开关状态监听
+     */
     public void setWiFiStateChangeListener(WiFiStateChangeListener listener) {
         receiver.setWiFiStateChangeListener(listener);
     }
 
+    /**
+     * wifi 扫描状态监听
+     */
     public void setWiFiScanResultListener(WiFiScanResultListener listener) {
         resultReceiver.setListener(listener);
     }
@@ -70,16 +108,6 @@ public class WifiClient {
 
 
     /**
-     * 此方法肯能存在问题
-     */
-    @Deprecated
-    public WIFIHotSpot openHotSpot() {
-        WIFIHotSpot spot = new WIFIHotSpot(manager, context);
-        spot.openWifiHotSpot("ABCDEFG123456", "123456789");
-        return spot;
-    }
-
-    /**
      * 连接wifi
      */
     public void addNetWork(String SSID, String PASSW) {
@@ -89,7 +117,7 @@ public class WifiClient {
             //移除,新建config
             netId = manager.addNetwork(createWifiInfo(SSID, PASSW));
         } else {
-            WifiConfiguration wifiConfig = getExitsWifiConfig(SSID);
+            WifiConfiguration wifiConfig = getExitsWifiConfigForSSID(SSID);
             if (wifiConfig != null) {
                 //这个wifi是连接过
                 netId = wifiConfig.networkId;
@@ -105,13 +133,30 @@ public class WifiClient {
 
     /**
      * 存在过的wifiConfiguration
+     *
+     * @param SSID 中存在转义符等
      */
-    private WifiConfiguration getExitsWifiConfig(String SSID) {
+    private WifiConfiguration getExitsWifiConfigForSSID(String SSID) {
+        if (TextUtils.isEmpty(SSID)) return null;
         List<WifiConfiguration> wifiConfigurationList = manager.getConfiguredNetworks();
+        if (ArrayUtil.isEmpty(wifiConfigurationList)) return null;
+
         for (WifiConfiguration wifiConfiguration : wifiConfigurationList) {
             if (wifiConfiguration.SSID.equals("\"" + SSID + "\"")) {
                 return wifiConfiguration;
+            } else if (wifiConfiguration.SSID.equals(SSID)) {
+                return wifiConfiguration;
             }
+        }
+        return null;
+    }
+
+
+    public WifiConfiguration getCurrentWifiConfig() {
+        if (context == null || manager == null) return null;
+        WifiInfo wifiInfo = getConnectionWifi(context);
+        if (wifiInfo != null) {
+            return getExitsWifiConfigForSSID(wifiInfo.getSSID());
         }
         return null;
     }
@@ -127,8 +172,9 @@ public class WifiClient {
      * config里存在； 在mWifiManager移除；
      */
     private boolean removeWifi(String SSID) {
-        if (getExitsWifiConfig(SSID) != null) {
-            return removeWifi(getExitsWifiConfig(SSID).networkId);
+        WifiConfiguration exitsWifiConfig = getExitsWifiConfigForSSID(SSID);
+        if (exitsWifiConfig != null) {
+            return removeWifi(exitsWifiConfig.networkId);
         } else {
             return false;
         }
@@ -152,7 +198,7 @@ public class WifiClient {
             config.allowedProtocols.clear();
             config.SSID = "\"" + SSID + "\"";
             //如果有相同配置的，就先删除
-            WifiConfiguration tempConfig = getExitsWifiConfig(SSID);
+            WifiConfiguration tempConfig = getExitsWifiConfigForSSID(SSID);
             if (tempConfig != null) {
                 manager.removeNetwork(tempConfig.networkId);
                 manager.saveConfiguration();
@@ -207,9 +253,50 @@ public class WifiClient {
         return null;
     }
 
+    public void openWifi() {
+        manager.setWifiEnabled(false);
+    }
+
+    public void closeWifi() {
+        manager.setWifiEnabled(false);
+    }
+
+
+    public boolean connectionWifi(WifiConfiguration wifiConfiguration) {
+        if (wifiConfiguration == null) return false;
+        int netId = wifiConfiguration.networkId;
+        return manager.enableNetwork(netId, true);
+    }
+
+
+    private WifiConfiguration oldWifi;
+
+    public void saveWifiStatus() {
+        try {
+            if (manager == null) return;
+            WifiInfo wifiInfo = manager.getConnectionInfo();
+            if (wifiInfo != null) {
+                oldWifi = getExitsWifiConfigForSSID(wifiInfo.getSSID());
+            }
+        } catch (Exception ignored) {
+
+        }
+
+    }
+
+    public void reConnection() {
+        connectionWifi(oldWifi);
+    }
+
     public void onDestroy() {
-        receiver.unRegisterReceiver(context);
-        resultReceiver.unRegisterReceiver(context);
+        if (receiver != null) {
+            receiver.unRegisterReceiver(context);
+        }
+        if (resultReceiver != null) {
+            resultReceiver.unRegisterReceiver(context);
+        }
+
+        client = null;
     }
 
 

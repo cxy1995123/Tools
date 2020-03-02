@@ -2,15 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     android:clipChildren="false"
     android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,22 +19,12 @@
         app:title="123123213" />
 
 
+
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:text="连接"
         android:onClick="openCameraActivity"
-        android:text="连接" />
-
-
-    <chen.com.library.view.FilletButton
-        android:id="@+id/blocking"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="按钮"
-        android:textColor="#2196F3"
-        android:textSize="14sp"
-        app:backgroundColor="@color/colorAccent"
-        app:buttonRadius="20dp"
-        app:pressColor="@color/colorPrimary" />
+        android:layout_height="wrap_content"/>
+
 
 </LinearLayout>

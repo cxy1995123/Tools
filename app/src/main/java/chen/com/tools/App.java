@@ -1,7 +1,6 @@
 package chen.com.tools;
 
 import android.app.Application;
-import android.content.pm.ApplicationInfo;
 
 public class App extends Application {
 
