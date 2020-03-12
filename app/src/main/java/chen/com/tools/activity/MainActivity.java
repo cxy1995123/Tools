@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import chen.com.library.data.TimeDate;
 import chen.com.library.systembar.StatusBarCompat;
 
@@ -47,10 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void openCameraActivity(View view) {
-//        ExoPlayerFragment.launch(this);
-//        DocumentManagerFragment.launch(this);
-        ExpendList.launch(this);
+
     }
+
+
 
     @Override
     protected void onDestroy() {
@@ -59,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void main(String[] args) {
-        TimeDate date = TimeDate.getInstance(1660953600000L);
-        System.out.println(date.getTime());
+
     }
 
 }
