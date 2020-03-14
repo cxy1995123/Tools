@@ -17,6 +17,7 @@ import chen.com.library.tools.DisplayHelper;
 
 import static java.security.AccessController.getContext;
 
+
 public abstract class BaseFragment extends Fragment {
 
     public abstract int layoutRes();

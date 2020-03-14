@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  * @author chenXingYu
  */
 @SuppressWarnings("WeakerAccess")
-public class TimeDate {
+public class TimeDate{
     private static final long DAY_OF_MILLISECOND = 86400000;
 
     private static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
@@ -66,9 +66,9 @@ public class TimeDate {
     }
 
     private TimeDate(@Nullable Date date, @Nullable String str) {
-        if (!isEmpty(str)) {
+        if(!isEmpty(str)) {
             setValue(str);
-        } else if (date != null) {
+        } else if(date != null) {
             initDate(date);
         } else {
             initDate(null);
@@ -76,7 +76,7 @@ public class TimeDate {
     }
 
     private void initDate(@Nullable Date date) {
-        if (!isEmpty(dateStr)) {
+        if(!isEmpty(dateStr)) {
             try {
                 divisionStringTime(dateStr);
                 String string = getTimeString();
@@ -86,7 +86,7 @@ public class TimeDate {
                 dateStr = SIMPLE_DATE_FORMAT.format(date);
                 divisionStringTime(dateStr);
             }
-        } else if (date != null) {
+        } else if(date != null) {
             this.date = date;
             dateStr = SIMPLE_DATE_FORMAT.format(date);
             divisionStringTime(dateStr);
@@ -140,7 +140,7 @@ public class TimeDate {
         final int len = str.length();
         for (int cp, i = 0; i < len; i += Character.charCount(cp)) {
             cp = Character.codePointAt(str, i);
-            if (!Character.isDigit(cp)) {
+            if(!Character.isDigit(cp)) {
                 return false;
             }
         }
@@ -151,10 +151,7 @@ public class TimeDate {
      * 自定义时间组合成标准时间格式
      **/
     private String getTimeString() {
-        return (year == 0 ? String.valueOf(1970) : String.valueOf(year)) + "-" +
-                valueOf(month) + "-" + valueOf(day) + " " +
-                valueOf(hour) + ":" + valueOf(minute) + ":" +
-                valueOf(second);
+        return (year == 0 ? String.valueOf(1970) : String.valueOf(year)) + "-" + valueOf(month) + "-" + valueOf(day) + " " + valueOf(hour) + ":" + valueOf(minute) + ":" + valueOf(second);
     }
 
 
@@ -164,7 +161,7 @@ public class TimeDate {
      **/
     @SuppressWarnings("WeakerAccess")
     public String getTime(String pattern) {
-        if (date == null) {
+        if(date == null) {
             Log.e("TimeDate", "getTime: " + "data is null");
             return "";
         }
@@ -252,14 +249,14 @@ public class TimeDate {
     public void refreshTime() {
         StringBuilder builder = new StringBuilder();
         String monthStr;
-        if (this.month < 10) {
+        if(this.month < 10) {
             monthStr = "0" + this.month;
         } else {
             monthStr = String.valueOf(month);
         }
 
         String dayStr;
-        if (this.day < 10) {
+        if(this.day < 10) {
             dayStr = "0" + this.day;
         } else {
             dayStr = String.valueOf(day);
@@ -267,29 +264,28 @@ public class TimeDate {
 
 
         String hourStr;
-        if (hour < 10) {
+        if(hour < 10) {
             hourStr = "0" + this.hour;
         } else {
             hourStr = String.valueOf(hour);
         }
 
         String minuteStr;
-        if (minute < 10) {
+        if(minute < 10) {
             minuteStr = "0" + this.minute;
         } else {
             minuteStr = String.valueOf(minute);
         }
 
         String secondStr;
-        if (second < 10) {
+        if(second < 10) {
             secondStr = "0" + this.second;
         } else {
             secondStr = String.valueOf(second);
         }
         //yyyy-MM-dd HH:mm:ss
         builder.append(year).append("-").append(monthStr).append("-").append(dayStr);
-        builder.append(" ").append(hourStr).append(":").append(minuteStr)
-                .append(":").append(secondStr);
+        builder.append(" ").append(hourStr).append(":").append(minuteStr).append(":").append(secondStr);
         dateStr = builder.toString();
         initDate(null);
     }
@@ -297,7 +293,7 @@ public class TimeDate {
     /**
      * 是否大于某个时间
      */
-    public boolean greaterThan(TimeDate date) {
+    public boolean moreThan(TimeDate date) {
         return compareTo(date) == 1;
     }
 
@@ -306,17 +302,17 @@ public class TimeDate {
      * 距离该日期过了多少天
      */
     public long daysBetween(@Nullable TimeDate date) {
-        if (date == null) {
+        if(date == null) {
             date = new TimeDate();
         }
         long daysBetween;
 
-        if (this.date == null || date.date == null) {
+        if(this.date == null || date.date == null) {
             daysBetween = 0;
         } else {
             long aThisdateTime = this.date.getTime();
             long aDatedateTime = date.date.getTime();
-            if (aThisdateTime > aDatedateTime) {
+            if(aThisdateTime > aDatedateTime) {
                 daysBetween = (aThisdateTime - aDatedateTime) / (1000L * 3600L * 24L);
             } else {
                 daysBetween = (aDatedateTime - aThisdateTime) / (1000L * 3600L * 24L);
@@ -337,11 +333,42 @@ public class TimeDate {
      * @param day 需要减去的天数
      */
     public void subtract(int day) {
-        if (date == null || day == 0) return;
+        if(date == null || day == 0) return;
         date = new Date(date.getTime() - (day * DAY_OF_MILLISECOND));
         dateStr = SIMPLE_DATE_FORMAT.format(date);
         divisionStringTime(dateStr);
 
+    }
+
+    private String getAge() {
+        TimeDate now = TimeDate.getInstance();
+        TimeDate date = this;
+        int age = 0;
+        String unit = "岁";
+        if(now.moreThan(date)) {
+            if(date.daysBetween() > 365) {
+                age = now.getYear() - date.getYear();
+                if(age < 1) {
+                    //闰年366
+                    age = 12;
+                    unit = "月";
+                }
+            } else if(date.daysBetween() > 31) {
+                //不足一岁 但是 大于 1月
+                unit = "月";
+                if(date.isSameYear(now)) {
+                    //今年出生的
+                    age = now.getMonth() - date.getMonth();
+                } else {
+                    age = 12 - date.getMonth() + now.getMonth();
+                }
+            } else {
+                //不足一月的
+                unit = "天";
+                age = (int) date.daysBetween();
+            }
+        }
+        return age + unit;
     }
 
 
@@ -351,14 +378,14 @@ public class TimeDate {
      * @return 大于  1 等于0 小于-1
      */
     public int compareTo(TimeDate date) {
-        if (date == null) return 1;
-        if (date.getDate() == null) return 1;
-        if (this.date == null) return -1;
+        if(date == null) return 1;
+        if(date.getDate() == null) return 1;
+        if(this.date == null) return -1;
         long offset = this.date.getTime() - date.getDate().getTime();
-        if (offset > 0) {
+        if(offset > 0) {
             return 1;
         }
-        if (offset < 0) {
+        if(offset < 0) {
             return -1;
         }
         return 0;
@@ -369,7 +396,7 @@ public class TimeDate {
      * 是否是同一年
      */
     public boolean isSameYear(TimeDate date) {
-        if (date == null) return false;
+        if(date == null) return false;
         return date.getYear() == year;
     }
 
@@ -377,7 +404,7 @@ public class TimeDate {
      * 是否是同月
      */
     public boolean isSameMonth(TimeDate date) {
-        if (date == null) return false;
+        if(date == null) return false;
         return isSameYear(date) && date.getMonth() == month;
     }
 
@@ -385,7 +412,7 @@ public class TimeDate {
      * 是否是同月
      */
     public boolean isSameDay(TimeDate date) {
-        if (date == null) return false;
+        if(date == null) return false;
         return isSameMonth(date) && date.getDay() == day;
     }
 
@@ -396,7 +423,7 @@ public class TimeDate {
     }
 
     public long getLongTime() {
-        if (date != null) {
+        if(date != null) {
             return date.getTime();
         }
         return new Date().getTime();
@@ -411,6 +438,12 @@ public class TimeDate {
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
+    public int getYearCountDays() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.getActualMaximum(Calendar.DAY_OF_YEAR);
+    }
+
     public int getDaysOfMonth() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -419,9 +452,9 @@ public class TimeDate {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
+        if(obj == null) return false;
 
-        if (obj instanceof TimeDate) {
+        if(obj instanceof TimeDate) {
             return compareTo((TimeDate) obj) == 0;
         }
 
