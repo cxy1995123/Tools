@@ -12,7 +12,6 @@ import android.view.View.OnTouchListener
 import androidx.core.content.ContextCompat
 import chen.com.library.tools.Util
 import chen.com.tools.R
-import com.google.android.exoplayer2.ui.PlayerView
 
 class FloatManager {
     companion object {
