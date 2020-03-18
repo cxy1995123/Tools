@@ -60,9 +60,4 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 
     }
-
-    public static void main(String[] args) {
-
-    }
-
 }

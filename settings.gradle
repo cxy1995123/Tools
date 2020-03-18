@@ -1,2 +1,3 @@
 include ':app', ':EventBus', ':library', ':kotlin_test'
 rootProject.name='Tools'
+include ':JavaLib'

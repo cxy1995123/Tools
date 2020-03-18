@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/EventBus" />
+            <option value="$PROJECT_DIR$/JavaLib" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/kotlin_test" />
             <option value="$PROJECT_DIR$/library" />
