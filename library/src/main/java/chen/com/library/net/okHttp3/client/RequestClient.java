@@ -45,19 +45,19 @@ public class RequestClient {
 
     static {
         client = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(@NonNull Chain chain) throws IOException {
-                        Request.Builder request = chain.request().newBuilder();
-                        Headers headers = new Headers();
-                        headers.add("header1", "1");
-                        headers.add("header2", "2");
-                        headers.add("header3", "3");
-                        Log.i(TAG, "RequestHeaders:" + headers.toString());
-                        request.headers(okhttp3.Headers.of(headers));
-                        return chain.proceed(request.build());
-                    }
-                })
+//                .addInterceptor(new Interceptor() {
+//                    @Override
+//                    public Response intercept(@NonNull Chain chain) throws IOException {
+//                        Request.Builder request = chain.request().newBuilder();
+//                        Headers headers = new Headers();
+//                        headers.add("header1", "1");
+//                        headers.add("header2", "2");
+//                        headers.add("header3", "3");
+//                        Log.i(TAG, "RequestHeaders:" + headers.toString());
+//                        request.headers(okhttp3.Headers.of(headers));
+//                        return chain.proceed(request.build());
+//                    }
+//                })
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {

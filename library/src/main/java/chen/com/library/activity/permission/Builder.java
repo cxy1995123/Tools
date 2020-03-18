@@ -27,6 +27,10 @@ public class Builder {
         return this;
     }
 
+    @Deprecated
+    /**
+     * @see #request(Activity)
+     */
     public PermissionRequest create() {
         PermissionRequest request = new PermissionRequest();
         request.requestCode = requestCode;

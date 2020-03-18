@@ -34,7 +34,7 @@
     <declare-styleable name="ScrollTabItem">
         <attr name="android:textSize" />
         <attr name="android:textColor" />
-        <attr name="selectedTextColor" />
+        <attr name="selectedTextColor" format="color" />
         <attr name="android:text" />
         <attr name="isSelect" format="boolean" />
     </declare-styleable>

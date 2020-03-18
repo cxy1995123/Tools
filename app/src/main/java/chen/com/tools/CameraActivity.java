@@ -22,33 +22,6 @@ public class CameraActivity extends AppCompatActivity implements OnRequestPermis
 
     private CameraView cameraView;
 
-    public static void main(String[] args) {
-        float target = 4.0f / 3.0f;
-        Set<AspectRatio> ratios = new TreeSet<>();
-        ratios.add(AspectRatio.parse("4:3"));
-        ratios.add(AspectRatio.parse("1:1"));
-        ratios.add(AspectRatio.parse("2:1"));
-        ratios.add(AspectRatio.parse("16:9"));
-        ratios.add(AspectRatio.parse("20:15"));
-        ratios.add(AspectRatio.parse("30:17"));
-        ratios.add(AspectRatio.parse("10:6"));
-        ratios.add(AspectRatio.parse("12:7"));
-        Iterator<AspectRatio> iterator = ratios.iterator();
-        float offset = 99999;
-        AspectRatio currentAspectRatio = null;
-        for (; iterator.hasNext(); ) {
-            AspectRatio next = iterator.next();
-            float aFloat = next.toFloat();
-
-            float newOffset = Math.abs(aFloat - target);
-            if (newOffset < offset) {
-                currentAspectRatio = next;
-                offset = newOffset;
-            }
-            System.out.println(aFloat + "," + next + "," + newOffset);
-        }
-        System.out.println(currentAspectRatio);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
