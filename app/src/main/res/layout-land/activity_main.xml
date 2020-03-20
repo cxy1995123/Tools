@@ -27,4 +27,8 @@
         android:layout_height="wrap_content"/>
 
 
+    <chen.com.library.view.PolylineView
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
+
 </LinearLayout>

@@ -24,4 +24,13 @@
         android:onClick="openCameraActivity"
         android:text="连接" />
 
+
+    <chen.com.library.view.PolylineView
+        android:id="@+id/polyView"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp" />
+
 </LinearLayout>

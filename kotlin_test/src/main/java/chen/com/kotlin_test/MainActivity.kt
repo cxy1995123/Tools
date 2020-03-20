@@ -3,6 +3,9 @@ package chen.com.kotlin_test
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
     
@@ -20,22 +23,7 @@ class MainActivity : AppCompatActivity() {
 
 fun main() {
     
-    val list = mutableListOf<Int>()
-    
-    for (index in 0..100) {
-        list.add(index)
-    }
-    
-    for (i in list) {
-        println(i)
-        if (i == 10) {
-            continue
-        }
-        
-    }
-    
-    
-    println(100)
-    
+    println(ceil(1.2).toInt() + (ceil(1.2).toInt()%2))
+    println(floor(2.2).toInt() + (floor(2.2).toInt()%2))
     
 }

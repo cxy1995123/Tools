@@ -33,6 +33,7 @@ public class TagEditText extends AppCompatEditText implements View.OnKeyListener
     public TagEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setFilters(new InputFilter[]{this});
+
         setOnKeyListener(this);
     }
 
